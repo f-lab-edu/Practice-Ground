@@ -13,6 +13,12 @@ function getTodoList() {
     const todoEl = document.createElement('li');
     todoEl.textContent = item.title;
 
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '삭제';
+    deleteButton.addEventListener('click', deleteTodo.bind(null, { idx }));
+
+    todoEl.appendChild(deleteButton);
+
     todoListEl.appendChild(todoEl);
   });
 }
@@ -23,6 +29,13 @@ function addTodo() {
 
   const todoList = JSON.parse(sessionStorage.getItem('todoList')) ?? [];
   todoList.push({ title: addContent });
+  sessionStorage.setItem('todoList', JSON.stringify(todoList));
+  getTodoList();
+}
+
+function deleteTodo({ idx }) {
+  const todoList = JSON.parse(sessionStorage.getItem('todoList'));
+  todoList.splice(idx, 1);
   sessionStorage.setItem('todoList', JSON.stringify(todoList));
   getTodoList();
 }
