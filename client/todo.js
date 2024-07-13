@@ -17,6 +17,18 @@ function getTodoList() {
   });
 }
 
+function addTodo() {
+  const addContent = document.getElementById('add-input').value;
+  if (!addContent) return;
+
+  const todoList = JSON.parse(sessionStorage.getItem('todoList')) ?? [];
+  todoList.push({ title: addContent });
+  sessionStorage.setItem('todoList', JSON.stringify(todoList));
+  getTodoList();
+}
+
 const getButton = document.getElementById('get-button');
+const addButton = document.getElementById('add-button');
 
 getButton.addEventListener('click', () => getTodoList());
+addButton.addEventListener('click', () => addTodo());
