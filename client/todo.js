@@ -17,6 +17,14 @@ function getTodoList() {
     deleteButton.textContent = '삭제';
     deleteButton.addEventListener('click', deleteTodo.bind(null, { idx }));
 
+    const updateButton = document.createElement('button');
+    updateButton.textContent = '수정';
+    updateButton.addEventListener(
+      'click',
+      updateTodo.bind(null, { idx: idx, title: item.title })
+    );
+
+    todoEl.appendChild(updateButton);
     todoEl.appendChild(deleteButton);
 
     todoListEl.appendChild(todoEl);
@@ -36,6 +44,30 @@ function addTodo() {
 function deleteTodo({ idx }) {
   const todoList = JSON.parse(sessionStorage.getItem('todoList'));
   todoList.splice(idx, 1);
+  sessionStorage.setItem('todoList', JSON.stringify(todoList));
+  getTodoList();
+}
+
+function updateTodo({ idx, title }) {
+  const targetEl = document.getElementById('todo-list').childNodes[idx];
+  targetEl.innerHTML = '';
+  const updateInputEl = document.createElement('input');
+  updateInputEl.defaultValue = title;
+  const completeButton = document.createElement('button');
+  completeButton.textContent = '수정 완료';
+  completeButton.addEventListener('click', updateComplete.bind(null, { idx }));
+
+  targetEl.appendChild(updateInputEl);
+  targetEl.appendChild(completeButton);
+}
+
+function updateComplete({ idx }) {
+  const todoList = JSON.parse(sessionStorage.getItem('todoList'));
+
+  const targetInputEl =
+    document.getElementById('todo-list').children[idx].childNodes[0];
+  todoList[idx].title = targetInputEl.value;
+
   sessionStorage.setItem('todoList', JSON.stringify(todoList));
   getTodoList();
 }
