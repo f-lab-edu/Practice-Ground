@@ -9,26 +9,28 @@ function getTodoList() {
   const todoListEl = document.getElementById('todo-list');
   todoListEl.innerHTML = '';
 
-  todoList.forEach((item, idx) => {
+  for (let i = 0; i < todoList.length; i++) {
+    const todoItem = todoList[i];
+
     const todoEl = document.createElement('li');
-    todoEl.textContent = item.title;
+    todoEl.textContent = todoItem.title;
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = '삭제';
-    deleteButton.addEventListener('click', deleteTodo.bind(null, { idx }));
+    deleteButton.addEventListener('click', deleteTodo.bind(null, { idx: i }));
 
     const updateButton = document.createElement('button');
     updateButton.textContent = '수정';
     updateButton.addEventListener(
       'click',
-      updateTodo.bind(null, { idx: idx, title: item.title })
+      updateTodo.bind(null, { idx: i, title: todoItem.title })
     );
 
     todoEl.appendChild(updateButton);
     todoEl.appendChild(deleteButton);
 
     todoListEl.appendChild(todoEl);
-  });
+  }
 }
 
 function addTodo() {
