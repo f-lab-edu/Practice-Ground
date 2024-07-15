@@ -77,5 +77,5 @@ function updateComplete({ idx }) {
 const getButton = document.getElementById('get-button');
 const addButton = document.getElementById('add-button');
 
-getButton.addEventListener('click', () => getTodoList());
-addButton.addEventListener('click', () => addTodo());
+getButton.addEventListener('click', getTodoList);
+addButton.addEventListener('click', addTodo);
