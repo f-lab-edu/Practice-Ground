@@ -1,3 +1,5 @@
+import { program } from './program.mjs';
+
 function createTest({ isEqual }) {
   if (typeof isEqual !== 'function') {
     throw new TypeError('적합한 isEqual() 함수를 주입해주세요.');
@@ -80,53 +82,10 @@ function isEqual(arr1, arr2) {
   return true;
 }
 
-function getTodoList({ id } = {}) {
-  const todoList = JSON.parse(sessionStorage.getItem('todoList'));
-  if (todoList === null) return;
-
-  if (id) {
-    return todoList[todoList.findIndex((item) => item.id === id)] || null;
-  }
-
-  return todoList;
-}
-
-function addTodo({ input }) {
-  if (!input) return;
-
-  const todoList = JSON.parse(sessionStorage.getItem('todoList')) || [];
-
-  todoList.push({ id: todoList.length + 1, text: input });
-  sessionStorage.setItem('todoList', JSON.stringify(todoList));
-
-  return getTodoList();
-}
-
-function deleteTodo({ id }) {
-  const todoList = JSON.parse(sessionStorage.getItem('todoList'));
-
-  todoList.splice(
-    todoList.findIndex((item) => item.id === id),
-    1
-  );
-  sessionStorage.setItem('todoList', JSON.stringify(todoList));
-
-  return getTodoList();
-}
-
-function updateTodo({ id, text }) {
-  const todoList = JSON.parse(sessionStorage.getItem('todoList'));
-
-  todoList[todoList.findIndex((item) => item.id === id)].text = text;
-  sessionStorage.setItem('todoList', JSON.stringify(todoList));
-
-  return getTodoList();
-}
-
-const test = new createTest({ isEqual });
-test.suite.create = addTodo;
-test.suite.read = getTodoList;
-test.suite.update = updateTodo;
-test.suite.delete = deleteTodo;
+const test = createTest({ isEqual });
+test.suite.create = program.addItem;
+test.suite.read = program.getItems;
+test.suite.update = program.updateItems;
+test.suite.delete = program.deleteItem;
 
 test.run();
