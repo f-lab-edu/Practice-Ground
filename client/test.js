@@ -67,12 +67,12 @@ function createTest({ isEqual }) {
   };
 }
 
-function isEqual(arr1, arr2) {
-  if (arr1 === null && arr2 === null) return true;
-  if (arr1.length !== arr2.length) return false;
+function isEqual(o1, o2) {
+  if (o1 === null && o2 === null) return true;
+  if (Object.keys(o1).length !== Object.keys(o2).length) return false;
 
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i].id !== arr2[i].id || arr1[i].text !== arr2[i].text) {
+  for (const key of Object.keys(o1)) {
+    if (JSON.stringify(o1[key]) !== JSON.stringify(o2[key])) {
       return false;
     }
   }
