@@ -83,41 +83,49 @@ function isEqual(o1, o2) {
 }
 
 /** 상태 및 코어로직 코드*/
-function createProgram() {
-  let state = [];
-
+function createProgram({ getState, setState }) {
   function getItems({ id } = {}) {
-    if (state.length === 0) return null;
+    const items = getState();
 
+    if (items.length === 0) return null;
     if (id) {
-      return state[state.findIndex((item) => item.id === id)] || null;
+      return items[items.findIndex((item) => item.id === id)] || null;
     }
 
-    return state;
+    return items;
   }
 
   function addItem({ input }) {
     if (!input) return;
+    const items = getState();
 
-    state.push({ id: state.length + 1, text: input });
-    return state;
+    items.push({ id: items.length + 1, text: input });
+
+    const result = setState(items);
+    return result;
   }
 
   function deleteItem({ id }) {
     if (!id) return;
+    const items = getState();
 
-    state.splice(
-      state.findIndex((item) => item.id === id),
+    items.splice(
+      items.findIndex((item) => item.id === id),
       1
     );
-    return state;
+
+    const result = setState(items);
+    return result;
   }
 
   function updateItems({ id, text }) {
     if (!id || !text) return;
+    const items = getState();
 
-    state[state.findIndex((item) => item.id === id)].text = text;
-    return state;
+    items[items.findIndex((item) => item.id === id)].text = text;
+
+    const result = setState(items);
+    return result;
   }
 
   return {
@@ -128,7 +136,38 @@ function createProgram() {
   };
 }
 
-const program = createProgram();
+/** 외부 저장소 활용 시 유연하게 대응하게 위해*/
+function createStore() {
+  //초기값 설정
+  let state = [];
+
+  function getState() {
+    //상태를 저장소에서 가져오는 로직
+    //Ex) state = JSON.parse(sessionStorage.getItem('kyu')) ?? [];
+    return state;
+  }
+
+  function setState(items) {
+    //상태를 저장소에 업데이트하는 함수
+    //Ex) sessionStorage.setItem('kyu', JSON.stringify(items));
+    state = items;
+
+    const result = getState();
+    return result;
+  }
+
+  return {
+    getState,
+    setState,
+  };
+}
+
+const store = createStore();
+
+const program = createProgram({
+  getState: store.getState,
+  setState: store.setState,
+});
 
 /**integration 코드*/
 const test = createTest({ isEqual });
