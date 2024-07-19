@@ -1,3 +1,4 @@
+/** 테스트 프레임워크 코드*/
 function createTest({ isEqual }) {
   if (typeof isEqual !== 'function') {
     throw new TypeError('적합한 isEqual() 함수를 주입해주세요.');
@@ -67,6 +68,7 @@ function createTest({ isEqual }) {
   };
 }
 
+/** 의존성 주입 코드*/
 function isEqual(o1, o2) {
   if (o1 === null && o2 === null) return true;
   if (Object.keys(o1).length !== Object.keys(o2).length) return false;
@@ -80,6 +82,7 @@ function isEqual(o1, o2) {
   return true;
 }
 
+/** 상태 및 코어로직 코드*/
 function createProgram() {
   let state = [];
 
@@ -127,10 +130,12 @@ function createProgram() {
 
 const program = createProgram();
 
+/**integration 코드*/
 const test = createTest({ isEqual });
 test.suite.create = program.addItem;
 test.suite.read = program.getItems;
 test.suite.update = program.updateItems;
 test.suite.delete = program.deleteItem;
 
+/**프레임워크 실행 코드*/
 test.run();
