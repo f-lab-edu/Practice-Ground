@@ -18,21 +18,18 @@ jobs:
         uses: cloudtype-github-actions/deploy@v1
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          project:  practice-ground
+          project: alwayskw0n0/practice-ground
           stage: main
           yaml: |
-            name: flask
-            app: python@3.9
+            name: practice-ground
+            app: web
             options:
-              env:
-                - name: FLASK_ENV
-                  var: flask-env
-                - name: DB_PASSWORD
-                  secret: mariadb-root-password
-              ports: 5000
-              start: gunicorn -b 0.0.0.0:5000 app:app
+              docbase: client/
+              spa: false
+              nodeversion: "20"
+              buildenv: []
+              rewrites: []
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
                 ref: ${{ github.ref }}
-              preset: python-flask
