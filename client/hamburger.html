@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hamburger</title>
+    <style>
+      #expand-toggle {
+        display: none;
+      }
+
+      .expandable {
+        display: none;
+      }
+
+      #expand-btn {
+        border: 1px solid black;
+        padding: 5px;
+        cursor: pointer;
+        background-color: cyan;
+      }
+
+      #inner-btn {
+        border: 1px solid black;
+        padding: 5px;
+        cursor: pointer;
+        background-color: tomato;
+      }
+
+      #expand-toggle:checked ~ .expandable {
+        visibility: visible;
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        border: 1px solid black;
+        background-color: white;
+      }
+
+      #expand-toggle:checked ~ #expand-btn {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="checkbox" id="expand-toggle" />
+
+    <div class="expandable">
+      <label for="expand-toggle" id="inner-btn">Back</label>
+        <span>참깨 빵</span>
+        <span>순쇠고기 패티 2장</span>
+        <span>특별한 소스</span>
+        <span>양상추 </span>
+      </div>
+    </div>
+
+    <label for="expand-toggle" id="expand-btn">Hamburger</label>
+  </body>
+</html>
