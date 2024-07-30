@@ -1,4 +1,8 @@
 function structuredClonePolyfill(value, options = null) {
+  if (typeof value === 'function' || value.nodeType !== undefined) {
+    throw new Error('DataCloneError');
+  }
+
   let result = {};
 
   if (typeof value === 'object' && value !== null) {
